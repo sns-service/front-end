@@ -28,15 +28,14 @@
         header .title {
             margin-left: 11%;
             cursor: pointer;
+            font-size: 1.1em; /* 글자 크기 10% 증가 */
         }
         header .actions {
-            margin-right: 12%;
-            display: flex;
-            gap: 10px;
-            align-items: center;
+            margin-right: 14%; /* 왼쪽으로 약간 이동 */
         }
-        header a {
-            color: white;
+        header .actions a {
+            font-size: 1.1em; /* 글자 크기 10% 증가 */
+            color: white; /* 글자 색상 흰색 유지 */
         }
         .container {
             padding: 80px 20px 20px 20px; /* 헤더 높이만큼 패딩 추가 */
@@ -147,7 +146,7 @@
 </head>
 <body>
 <header>
-    <div class="title" onclick="goToHome()">A Simple SNS</div>
+    <div class="title" onclick="goToHome()">Flickr</div>
     <div class="actions">
         <a id="user-greeting" href="/login">Sign-In</a>
         <a id="my-feeds-link" style="display: none;" href="#">Go to My Feeds</a>
