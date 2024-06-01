@@ -34,8 +34,9 @@
             margin-right: 14%; /* 왼쪽으로 약간 이동 */
         }
         header .actions a {
-            font-size: 1.1em; /* 글자 크기 10% 증가 */
+            font-size: 1.0em; /* 글자 크기 10% 증가 */
             color: white; /* 글자 색상 흰색 유지 */
+            margin-left: 11px; /* 링크 사이에 간격 추가 */
         }
         .container {
             padding: 80px 20px 20px 20px; /* 헤더 높이만큼 패딩 추가 */
@@ -186,6 +187,7 @@
             document.getElementById('user-greeting').href = '/mypage';
             document.getElementById('my-feeds-link').style.display = 'inline-block';
             document.getElementById('my-feeds-link').href = '/userposts?userId=' + userInfo.userId;
+            document.getElementById('my-feeds-link').innerText = '내 피드'; // 글자 변경
         }
 
         var modal = document.getElementById("myModal");
