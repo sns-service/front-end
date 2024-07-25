@@ -99,7 +99,7 @@
         formData.append('image', fileInput.files[0]);
 
         try {
-            const uploadResponse = await fetch('https://a.simple-sns.link/api/images/upload', {
+            const uploadResponse = await fetch('http://localhost:8080/api/images/upload', {
                 method: 'POST',
                 body: formData,
                 credentials: 'include' // 쿠키 포함
@@ -111,7 +111,7 @@
 
             const imageId = await uploadResponse.text();
 
-            const feedResponse = await fetch('https://a.simple-sns.link/api/feeds', {
+            const feedResponse = await fetch('http://localhost:8080/api/feeds', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

@@ -13,17 +13,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-public class TimelineController {
+public class HomeController {
 
     private final RestTemplate restTemplate;
 
-    public TimelineController() {
+    public HomeController() {
         this.restTemplate = new RestTemplate();
     }
 
     @GetMapping
     public String listAllFeed(Model model) {
-        List<LinkedHashMap> posts = restTemplate.getForObject("https://a.simple-sns.link/api/timeline/random", List.class);
+        List<LinkedHashMap> posts = restTemplate.getForObject("http://localhost:8080/api/feeds/random", List.class);
 
         List<SocialPost> transformedPosts = posts.stream()
                 .map(this::transformPost)

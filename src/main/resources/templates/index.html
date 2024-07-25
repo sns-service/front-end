@@ -159,8 +159,8 @@
 <div class="container">
     <div class="feed" id="feed-container">
         <div th:each="post : ${posts}" class="feed-item">
-            <img th:src="@{'https://a.simple-sns.link/api/images/view/' + ${post.imageId} + '?thumbnail=true'}"
-                 th:data-fullsize-src="@{'https://a.simple-sns.link/api/images/view/' + ${post.imageId}}"
+            <img th:src="@{'https://flickerimage.s3.ap-northeast-2.amazonaws.com/thumbnail/' + ${post.imageId}}"
+                 th:data-fullsize-src="@{'https://flickerimage.s3.ap-northeast-2.amazonaws.com/feed/' + ${post.imageId}}"
                  alt="Feed Image"
                  onclick="openModal(this)">
             <p th:text="${post.formattedDate}">2024. 5. 23. 오후 11:05:24</p>
@@ -230,23 +230,10 @@
         window.location.href = '/userposts?userId=' + userId;
     }
 
-    async function fetchRandomPosts() {
-        try {
-            const response = await fetch('https://a.simple-sns.link/api/timeline', {
-                credentials: 'include' // 쿠키 포함
-            });
-            let posts = await response.json();
-            // Shuffle and limit to 15 posts
-            posts = posts.sort(() => 0.5 - Math.random()).slice(0, 15);
-            renderPosts(posts);
-        } catch (error) {
-            console.error('Error fetching random posts:', error);
-        }
-    }
 
     async function fetchUserPosts(userId) {
         try {
-            const response = await fetch(`https://a.simple-sns.link/api/timeline/${userId}?includeFollowingFeed=false`, {
+            const response = await fetch(`http://localhost:8080/api/feeds/?userId=${userId}`, {
                 credentials: 'include' // 쿠키 포함
             });
             const posts = await response.json();
@@ -263,8 +250,8 @@
             const postElement = document.createElement('div');
             postElement.className = 'feed-item';
             postElement.innerHTML = `
-            <img src="https://a.simple-sns.link/api/images/view/${post.imageId}?thumbnail=true"
-                 data-fullsize-src="https://a.simple-sns.link/api/images/view/${post.imageId}"
+            <img src="https://flickerimage.s3.ap-northeast-2.amazonaws.com/thumbnail/${post.imageId}"
+                 data-fullsize-src="https://flickerimage.s3.ap-northeast-2.amazonaws.com/feed/${post.imageId}"
                  alt="Feed Image"
                  onclick="openModal(this)">
             <p>${new Date(post.uploadDatetime).toLocaleString()}</p>
@@ -276,6 +263,7 @@
         });
     }
 
+
     async function toggleLike(feedId, element) {
         var userInfo = localStorage.getItem('userInfo'); // 변수 재할당
         if (!userInfo) {
@@ -284,8 +272,8 @@
             window.location.href = '/login';
         } else {
             try {
-                const response = await fetch(`https://a.simple-sns.link/api/timeline/like/${feedId}`, {
-                    method: 'GET',
+                const response = await fetch(`http://localhost:8080/api/like?feedId=${feedId}`, {
+                    method: 'POST',
                     credentials: 'include' // 쿠키 포함
                 });
                 const result = await response.json();

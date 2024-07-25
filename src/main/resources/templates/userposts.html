@@ -272,7 +272,7 @@
 
         fetchUserPosts();
 
-        fetch(`https://a.simple-sns.link/api/users/${userId}`)
+        fetch(`http://localhost:8080/api/users/${userId}`)
             .then(response => response.json())
             .then(user => {
                 document.getElementById('username').innerText = `@${user.username}`;
@@ -303,7 +303,7 @@
         const userId = urlParams.get('userId');
 
         try {
-            const response = await fetch(`https://a.simple-sns.link/api/timeline/${userId}?includeFollowingFeed=false`, {
+            const response = await fetch(`http://localhost:8080/api/feeds?userId=${userId}`, {
                 credentials: 'include' // 쿠키 포함
             });
             const posts = await response.json();
@@ -313,7 +313,7 @@
                 renderPosts(posts);
             } else {
                 // 사용자의 이름을 가져오기 위해 추가 요청 수행
-                const userResponse = await fetch(`https://a.simple-sns.link/api/users/${userId}`, {
+                const userResponse = await fetch(`http://localhost:8080/api/users/${userId}`, {
                     credentials: 'include' // 쿠키 포함
                 });
                 const user = await userResponse.json();
@@ -362,8 +362,8 @@
             const postElement = document.createElement('div');
             postElement.className = 'feed-item';
             postElement.innerHTML = `
-            <img src="https://a.simple-sns.link/api/images/view/${post.imageId}?thumbnail=true"
-                 data-fullsize-src="https://a.simple-sns.link/api/images/view/${post.imageId}"
+            <img src="https://flickerimage.s3.ap-northeast-2.amazonaws.com/thumbnail/${post.imageId}"
+                 data-fullsize-src="https://flickerimage.s3.ap-northeast-2.amazonaws.com/feed/${post.imageId}"
                  alt="Feed Image"
                  onclick="openModal(this)">
             <p>${new Date(post.uploadDatetime).toLocaleString()}</p>
@@ -384,7 +384,7 @@
     async function deletePost(feedId, element) {
         if (confirm('정말 삭제하시겠습니까?')) {
             try {
-                const response = await fetch(`https://a.simple-sns.link/api/feeds/${feedId}`, {
+                const response = await fetch(`http://localhost:8080/api/feeds/${feedId}`, {
                     method: 'DELETE',
                     credentials: 'include'
                 });
@@ -408,8 +408,8 @@
             window.location.href = '/login';
         } else {
             try {
-                const response = await fetch(`https://a.simple-sns.link/api/timeline/like/${feedId}`, {
-                    method: 'GET',
+                const response = await fetch(`http://localhost:8080/api/like?feedId=${feedId}`, {
+                    method: 'POST',
                     credentials: 'include' // 쿠키 포함
                 });
                 const result = await response.json();
@@ -435,7 +435,7 @@
             };
             return;
         }
-        const response = await fetch(`https://a.simple-sns.link/api/follows/follow/${userId}`, {
+        const response = await fetch(`http://localhost:8080/api/follows/follow/${userId}`, {
             credentials: 'include' // 쿠키 포함
         });
         const isFollow = await response.json();
@@ -444,7 +444,7 @@
     }
 
     function toggleFollow(isFollow, userId, followerId) {
-        const url = `https://a.simple-sns.link/api/follows/${isFollow ? 'unfollow' : 'follow'}`;
+        const url = `http://localhost:8080/api/follows/${isFollow ? 'unfollow' : 'follow'}`;
         if (!followerId) { // 비로그인 사용자
             alert('Please sign in to follow users.');
             localStorage.setItem('redirectAfterLogin', window.location.href); // 현재 URL 저장

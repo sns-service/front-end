@@ -88,7 +88,7 @@
 
         // 팔로워 목록을 가져오는 함수
         function fetchFollowers() {
-            fetch('https://a.simple-sns.link/api/follows/followers', {
+            fetch('http://localhost:8080/api/follows/followers', {
                 credentials: 'include' // 쿠키 포함
             })
                 .then(response => response.json())
@@ -106,7 +106,7 @@
 
         // 팔로우 목록을 가져오는 함수
         function fetchFollowings() {
-            fetch('https://a.simple-sns.link/api/follows/followings', {
+            fetch('http://localhost:8080/api/follows/followings', {
                 credentials: 'include' // 쿠키 포함
             })
                 .then(response => response.json())
@@ -124,7 +124,7 @@
 
         // 언팔로우 함수
         window.unfollow = function(userId, element) {
-            fetch(`https://a.simple-sns.link/api/follows/unfollow`, {
+            fetch(`http://localhost:8080/api/follows/unfollow`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
