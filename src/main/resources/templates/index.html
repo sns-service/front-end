@@ -179,6 +179,8 @@
 <button class="floating-button" id="createPostButton">+</button>
 
 <script>
+    const apiServer = 'https://hello.simple-sns.link';
+
     document.addEventListener('DOMContentLoaded', function() {
         var userInfo = localStorage.getItem('userInfo');
         if (userInfo) {
@@ -233,7 +235,7 @@
 
     async function fetchUserPosts(userId) {
         try {
-            const response = await fetch(`http://localhost:8080/api/feeds/?userId=${userId}`, {
+            const response = await fetch(`${apiServer}/api/feeds/?userId=${userId}`, {
                 credentials: 'include' // 쿠키 포함
             });
             const posts = await response.json();
@@ -272,7 +274,7 @@
             window.location.href = '/login';
         } else {
             try {
-                const response = await fetch(`http://localhost:8080/api/like?feedId=${feedId}`, {
+                const response = await fetch(`${apiServer}/api/like?feedId=${feedId}`, {
                     method: 'POST',
                     credentials: 'include' // 쿠키 포함
                 });

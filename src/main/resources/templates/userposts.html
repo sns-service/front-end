@@ -246,6 +246,8 @@
 <button class="back-button" onclick="goToHome()">홈으로 가기</button>
 
 <script>
+    const apiServer = 'https://hello.simple-sns.link';
+
     document.addEventListener('DOMContentLoaded', function() {
         var userInfo = localStorage.getItem('userInfo');
         var followerId = null;
@@ -272,7 +274,7 @@
 
         fetchUserPosts();
 
-        fetch(`http://localhost:8080/api/users/${userId}`)
+        fetch(`${apiServer}/api/users/${userId}`)
             .then(response => response.json())
             .then(user => {
                 document.getElementById('username').innerText = `@${user.username}`;
@@ -303,7 +305,7 @@
         const userId = urlParams.get('userId');
 
         try {
-            const response = await fetch(`http://localhost:8080/api/feeds?userId=${userId}`, {
+            const response = await fetch(`${apiServer}/api/feeds?userId=${userId}`, {
                 credentials: 'include' // 쿠키 포함
             });
             const posts = await response.json();
@@ -313,7 +315,7 @@
                 renderPosts(posts);
             } else {
                 // 사용자의 이름을 가져오기 위해 추가 요청 수행
-                const userResponse = await fetch(`http://localhost:8080/api/users/${userId}`, {
+                const userResponse = await fetch(`${apiServer}/api/users/${userId}`, {
                     credentials: 'include' // 쿠키 포함
                 });
                 const user = await userResponse.json();
@@ -384,7 +386,7 @@
     async function deletePost(feedId, element) {
         if (confirm('정말 삭제하시겠습니까?')) {
             try {
-                const response = await fetch(`http://localhost:8080/api/feeds/${feedId}`, {
+                const response = await fetch(`${apiServer}/api/feeds/${feedId}`, {
                     method: 'DELETE',
                     credentials: 'include'
                 });
@@ -408,7 +410,7 @@
             window.location.href = '/login';
         } else {
             try {
-                const response = await fetch(`http://localhost:8080/api/like?feedId=${feedId}`, {
+                const response = await fetch(`${apiServer}/api/like?feedId=${feedId}`, {
                     method: 'POST',
                     credentials: 'include' // 쿠키 포함
                 });
@@ -435,7 +437,7 @@
             };
             return;
         }
-        const response = await fetch(`http://localhost:8080/api/follows/follow/${userId}`, {
+        const response = await fetch(`${apiServer}/api/follows/follow/${userId}`, {
             credentials: 'include' // 쿠키 포함
         });
         const isFollow = await response.json();
@@ -444,7 +446,7 @@
     }
 
     function toggleFollow(isFollow, userId, followerId) {
-        const url = `http://localhost:8080/api/follows/${isFollow ? 'unfollow' : 'follow'}`;
+        const url = `${apiServer}/api/follows/${isFollow ? 'unfollow' : 'follow'}`;
         if (!followerId) { // 비로그인 사용자
             alert('Please sign in to follow users.');
             localStorage.setItem('redirectAfterLogin', window.location.href); // 현재 URL 저장

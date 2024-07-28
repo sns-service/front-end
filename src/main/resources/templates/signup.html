@@ -72,6 +72,8 @@
 </div>
 
 <script>
+    const apiServer = 'https://hello.simple-sns.link';
+
     document.getElementById('signUpForm').addEventListener('submit', async function(event) {
         event.preventDefault();
 
@@ -89,7 +91,7 @@
             return;
         }
 
-        const response = await fetch('http://localhost:8080/api/users', {
+        const response = await fetch(`${apiServer}/api/users`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
