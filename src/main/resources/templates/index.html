@@ -147,7 +147,7 @@
 </head>
 <body>
 <header>
-    <div class="title" onclick="goToHome()">Flickr</div>
+    <div class="title" onclick="goToHome()">Flicker</div>
     <div class="actions">
         <a id="user-greeting" href="/login">Sign-In</a>
         <a id="my-feeds-link" style="display: none;" href="#">Go to My Feeds</a>
@@ -265,6 +265,13 @@
         });
     }
 
+    function debounce(func, wait) {
+        let timeout;
+        return function(...args) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), wait);
+        };
+    }
 
     async function toggleLike(feedId, element) {
         var userInfo = localStorage.getItem('userInfo'); // 변수 재할당
@@ -285,6 +292,19 @@
                 console.error('Error toggling like:', error);
             }
         }
+
+        // 디바운스를 적용한 좋아요 토글 함수
+        const debouncedToggleLike = debounce(toggleLike, 300);
+
+        // 예시: 좋아요 버튼 클릭 이벤트에 디바운스 적용
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.like-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const feedId = this.dataset.feedId;
+                    debouncedToggleLike(feedId, this);
+                });
+            });
+        });
     }
 </script>
 </body>
