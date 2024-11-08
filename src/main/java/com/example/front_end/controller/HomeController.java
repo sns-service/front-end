@@ -23,7 +23,7 @@ public class HomeController {
 
     @GetMapping
     public String listAllFeed(Model model) {
-        List<LinkedHashMap> posts = restTemplate.getForObject("http://localhost:8080/api/feeds/random", List.class);
+        List<LinkedHashMap> posts = restTemplate.getForObject("http://flicker-server:8080/api/feeds/random", List.class);
 
         List<SocialPost> transformedPosts = posts.stream()
                 .map(this::transformPost)

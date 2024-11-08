@@ -223,8 +223,8 @@
 <div class="container">
     <div class="feed" id="feed-container">
         <div th:each="post : ${posts}" class="feed-item">
-            <img th:src="@{'http://localhost:8080/api/images/view/' + ${post.imageId} + '?thumbnail=true'}"
-                 th:data-fullsize-src="@{'http://localhost:8080/api/images/view/' + ${post.imageId}}"
+            <img th:src="@{'http://flicker-server:8080/api/images/view/' + ${post.imageId} + '?thumbnail=true'}"
+                 th:data-fullsize-src="@{'http://flicker-server:8080/api/images/view/' + ${post.imageId}}"
                  alt="Feed Image"
                  onclick="openModal(this)">
             <p th:text="${post.formattedDate}">2024. 5. 23. 오후 11:05:24</p>
@@ -246,7 +246,7 @@
 <button class="back-button" onclick="goToHome()">홈으로 가기</button>
 
 <script>
-    const apiServer = 'http://localhost:8080';
+    const apiServer = 'http://flicker-server:8080';
 
     document.addEventListener('DOMContentLoaded', function() {
         var userInfo = localStorage.getItem('userInfo');
